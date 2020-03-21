@@ -1,7 +1,7 @@
 package draft
 
 import (
-	"draft/utils/log"
+	//"draft/utils/log"
 	"fmt"
 	"net/http"
 	"net/http/httputil"
@@ -30,7 +30,7 @@ func Recovery() HandlerFunc {
 			if err := recover(); err != nil {
 				message := fmt.Sprintf("%s", err)
 				httpRequest, _ := httputil.DumpRequest(c.Req, false)
-				log.Printf("%s\n%s", stack(message), string(httpRequest))
+				//log.Printf("%s\n%s", stack(message), string(httpRequest))
 				c.Fail(http.StatusInternalServerError, "Internal Server Error")
 			}
 		}()

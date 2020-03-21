@@ -1,7 +1,6 @@
 package draft
 
 import (
-	"draft/utils/log"
 	"html/template"
 	"net/http"
 	"strings"
@@ -44,7 +43,7 @@ func (engine *Engine) LoadHTMLGlob(pattern string) {
 
 // http服务器开始运行的方法
 func (engine *Engine) Run(address string) (err error) {
-	log.Debug("Listening and serving HTTP on %s\n", address)
+	//engine.log.Debug("Listening and serving HTTP on %s\n", address)
 	err = http.ListenAndServe(address, engine)
 
 	return
