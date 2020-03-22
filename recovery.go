@@ -30,7 +30,7 @@ func Recovery() HandlerFunc {
 			if err := recover(); err != nil {
 				message := fmt.Sprintf("%s", err)
 				httpRequest, _ := httputil.DumpRequest(c.Req, false)
-				//log.Printf("%s\n%s", stack(message), string(httpRequest))
+				debugPrint("%s\n%s", stack(message), string(httpRequest))
 				c.Fail(http.StatusInternalServerError, "Internal Server Error")
 			}
 		}()
