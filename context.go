@@ -66,20 +66,20 @@ func (c *Context) Query(key string) string {
 	return c.Req.URL.Query().Get(key)
 }
 
-func (c *Context) QueryParam(key string) string {
-	return c.queryTypeParam(key)
+func (c *Context) QueryParam() string {
+	return c.queryTypeParam("param")
 }
 
-func (c *Context) QueryType(key string) string {
-	return c.queryTypeParam(key)
+func (c *Context) QueryType() string {
+	return c.queryTypeParam("type")
 }
 
 func (c *Context) queryTypeParam(t string) string {
-	urlarry := strings.Split(c.Req.RequestURI, "/")
+	urlArray := strings.Split(c.Req.RequestURI, "/")
 	if t == "type" {
-		return urlarry[len(urlarry)-2]
+		return urlArray[len(urlArray)-2]
 	} else if t == "param" {
-		return urlarry[len(urlarry)-1]
+		return urlArray[len(urlArray)-1]
 	}
 	return ""
 }
@@ -122,22 +122,9 @@ func (c *Context) HTML(code int, name string, data interface{}) {
 	c.Writer.WriteHeader(code)
 	c.SetHeader("Content-Type", "text/html")
 
-	//if _, ok := CacheMap.Get(c.Req.RequestURI); !ok && strings.Contains(c.Req.RequestURI, "detail") && strings.Contains(c.Req.RequestURI, "id") {
-	//	cache := &Cache{}
-	//	mwriter := io.MultiWriter(cache, c.Writer)
-	//	if err := c.engine.htmlTemplates.ExecuteTemplate(mwriter, name, data); err != nil {
-	//		c.Fail(500, err.Error())
-	//	}
-	//	CacheMap.Lock()
-	//	CacheMap.Caches[c.Req.RequestURI] = cache.Value
-	//	fmt.Print("##################################################")
-	//	CacheMap.Unlock()
-	//	cache = nil
-	//} else {
 	if err := c.engine.htmlTemplates.ExecuteTemplate(c.Writer, name, data); err != nil {
 		c.Fail(500, err.Error())
 	}
-	//}
 }
 
 func (c *Context) reset() {
